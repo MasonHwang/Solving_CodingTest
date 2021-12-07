@@ -1,0 +1,63 @@
+#include <iostream>
+#include <queue>
+#include <vector>
+
+using namespace std;
+int dx[4] = { 1, -1, 0, 0 };
+int dy[4] = { 0,0,1,-1 };
+int arr[51][51] = { 0 };
+bool check[51][51] = { false };
+int M, N, K; //M: 가로, N: 세로, K: 배추 개수
+vector <int> v;
+
+//BFS 수행
+void bfs(int j, int i) {  
+	pair<int, int> p;
+	queue<pair <int, int>> q;
+	q.push({ j,i });  //시작 좌표 큐에 넣기
+	check[j][i] = true;
+	while (!q.empty()) {
+		p = q.front();
+		q.pop();
+
+		for (int k = 0; k < 4; k++) {
+			int nx = p.second + dx[k], ny = p.first + dy[k];
+			if (nx < 0 || nx >= M || ny < 0 || ny >= N) continue; //좌표 범위 벗어나면 넘기기
+			if (!arr[ny][nx] || check[ny][nx]) continue; //이미 방문했거나 배추가 없다면 넘기기
+			q.push({ ny, nx }); 
+			check[ny][nx] = true; 
+		}
+	}
+	return;
+}
+
+int main() {
+	int T;
+	cin >> T;
+	while (T--) {
+		int answer = 0;
+		cin >> M >> N >> K;
+		for (int i = 0; i < K; i++) {
+			int a, b;
+			cin >> a >> b;
+			arr[b][a] = 1; //배추가 속한 좌표에 1 표시 
+		}
+		for (int j = 0; j < N; j++) {
+			for (int i = 0; i < M; i++) {
+				if (arr[j][i] && !check[j][i]) { //해당 좌표에 배추가 있고 방문하지 않았을 경우
+					bfs(j, i); //bfs실행
+					answer++;
+				}
+			}
+		}
+		v.push_back(answer);
+		
+		fill(&arr[0][0], &arr[50][51], 0); //이차원 배열 초기화 fill( &배열[0][0] , &배열[N-1][M] , value );
+		fill(&check[0][0], &check[50][51], 0);
+
+	}
+	for (int i = 0; i < v.size(); i++) {
+		cout << v[i] << endl;
+	}
+	return 0;
+}
