@@ -1,2 +1,2 @@
-# solving_BOJ
-BaekJoon Online Judge
+# Solving_CodingTest
+
