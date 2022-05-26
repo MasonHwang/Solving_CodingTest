@@ -1,0 +1,49 @@
+#include <iostream>
+#include <queue>
+#include <algorithm>
+
+using namespace std;
+
+//방향 배열과 체크 배열 생성 
+int dx[] = {5,1,-1};
+int ch[100100];
+
+int main() {
+	ios::sync_with_stdio(0);
+	cin.tie(0);
+	
+	int s, e;
+	int cnt = -1;
+	cin >> s >> e;
+	// 좌표 위치와 움직인 횟수 저장하는 큐 선언 
+	queue<pair<int,int> > q;
+	q.push(make_pair(s,0));	
+	ch[s] = 1;
+	int nx, ny;
+	while(!q.empty()) {
+		
+		pair<int,int> p = q.front();
+		//목표 좌표로 온 경우 
+		if(p.first == e) {
+			cnt = p.second;
+			break;
+		}
+		
+		q.pop();
+		
+		for(int i = 0; i <3 ; i++) {
+			nx = p.first+dx[i]; 
+			//좌표의 범위를 넘는 경우와 이미 방문한 좌표인 경우 스킵 
+			if(nx <0 || nx > 10000) continue; 
+			if(ch[nx] == 1) continue;
+			ch[nx] = 1;
+			ny = p.second + 1;
+			q.push(make_pair(nx,ny));
+		}
+		
+	}
+	
+	cout << cnt << endl;
+	
+	return 0;
+} 
