@@ -1,0 +1,28 @@
+#include <iostream>
+ 
+using namespace std;
+
+int main() {
+	ios::sync_with_stdio(0);
+	cin.tie(0);
+	
+	int s, e;
+	int cnt = 0;
+	cin >> s >> e;
+	
+	while(s!=e){
+		cnt++;
+		//5칸 건너는게 효율적인 경우 
+		if((e-s) >3) {
+			s+=5;	
+		}
+		else if( (e-s) < 0) {
+			s-=1;
+		}
+		else s+=1;
+	}
+	
+	cout << cnt << endl;
+	
+	return 0;
+} 
