@@ -1,0 +1,70 @@
+//문제 링크 : https://programmers.co.kr/learn/courses/30/lessons/12952
+//문제 풀이 : https://shine-xia.tistory.com/95
+
+#include <string>
+#include <vector>
+#include <iostream>
+using namespace std;
+
+int N;
+int answer;
+int ch[13][13];
+int a,b;
+void dfs(int depth) {
+    if(depth == N) {
+        answer++;
+        return;
+    }
+    
+    for(int i =0 ; i <N ; i++) {
+        //이미 방문한 곳이면 걍 넘기기
+        if(ch[depth][i]) continue;
+        ch[depth][i]++;
+        //세로 배열 체크
+        for(int k = 0; k < N ; k++) ch[k][i]++;
+        //가로 배열 체크
+        for(int k = 0; k < N ; k++) ch[depth][k]++;
+        // \대각선 배열 체크
+        a = depth+1; b = i+1;
+        while(a<N && b< N) {
+            ch[a][b]++;
+            a++; b++;
+        }
+        // /대각선 배열 체크
+        a = depth+1; b = i-1;
+        while(a<N && b >= 0) {
+            ch[a][b]++;
+            a++; b--;
+        }
+        
+        //dfs 실행
+        dfs(depth+1);
+        
+        ch[depth][i]--;
+        //세로 배열 체크 해제
+        for(int k = 0; k < N ; k++) ch[k][i]--;
+        //가로 배열 체크
+        for(int k = 0; k < N ; k++) ch[depth][k]--;
+        // \ 대각선 배열 체크 해제
+        a = depth+1; b = i+1;
+        while(a<N && b< N) {
+            ch[a][b]--;
+            a++; b++;
+        }
+        // / 대각선 베얄 체크 해제
+        a = depth+1; b = i-1;
+        while(a<N && b >= 0) {
+            ch[a][b]--;
+            a++; b--;
+        }
+    }
+}
+ 
+int solution(int n) {
+    N = n;
+    
+    dfs(0);
+    
+    
+    return answer;
+}
